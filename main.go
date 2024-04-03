@@ -34,14 +34,8 @@ func main() {
 	stdin := bufio.NewScanner(os.Stdin)
 	for stdin.Scan() {
 		line := stdin.Text()
-		if invertmatch == false {
-			if rxop.MatchString(line) {
-				fmt.Println(line)
-			}
-		} else {
-			if rxop.MatchString(line) == false {
-				fmt.Println(line)
-			}
+		if invertmatch != rxop.MatchString(line) {
+			fmt.Println(line)
 		}
 	}
 }
