@@ -6,7 +6,7 @@ $ zvj 'REGEXP' < inputfile
 ````
 
 ````
-$ cat inputfile | zvj 'REGEXP'
+$ command | zvj 'REGEXP'
 ````
 
 For Windows :
@@ -14,4 +14,11 @@ For Windows :
 ````
 zvj.exe "REGEXP" < inputfile
 ````
+````
+ command | zvj.exe 'REGEXP'
+````
+
+Option: 
+-v  : Invert Match option
+      Default value: false 
 
