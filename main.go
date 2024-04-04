@@ -10,11 +10,12 @@ import (
 )
 
 var (
-	Version string = ""
+	Version   string = ""
+	DebugFlag bool   = false
 )
 
 func dlog(msg ...interface{}) {
-	if os.Getenv("ZVJ_DEBUG") == "1" {
+	if os.Getenv("ZVJ_DEBUG") == "1" || DebugFlag {
 		log.Print("ZVJ-debug:", msg)
 	}
 }
@@ -23,6 +24,7 @@ func main() {
 	quotregex := ".*"
 	invertmatch := false
 	flag.BoolVar(&invertmatch, "v", false, "-v(--invert-match) in AWK")
+	flag.BoolVar(&DebugFlag, "debug", false, "default false; --debug when enable")
 	flag.Parse()
 	if flag.NArg() != 0 {
 		quotregex = flag.Args()[0]
