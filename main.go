@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	Version   string = ""
-	DebugFlag bool   = false
+	Version     string = ""
+	VersionInfo bool   = false
+	DebugFlag   bool   = false
 )
 
 func dlog(msg ...interface{}) {
@@ -24,7 +25,12 @@ func main() {
 	invertmatch := false
 	flag.BoolVar(&invertmatch, "v", false, "-v(--invert-match) in AWK")
 	flag.BoolVar(&DebugFlag, "debug", false, "default false; --debug when enable")
+	flag.BoolVar(&VersionInfo, "V", false, "show version")
 	flag.Parse()
+	if VersionInfo {
+		fmt.Println("Version", Version)
+		os.Exit(0)
+	}
 	if flag.NArg() != 0 {
 		quotregex = flag.Args()[0]
 		dlog("set regex:", quotregex)
