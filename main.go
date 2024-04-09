@@ -16,11 +16,10 @@ var (
 
 func dlog(msg ...interface{}) {
 	if os.Getenv("ZVJ_DEBUG") == "1" || DebugFlag {
-		log.Print("ZVJ-debug:", msg)
+		log.Print("ZVJ_DEBUG:", msg)
 	}
 }
 func main() {
-	dlog("Version: ", Version)
 	quotregex := ".*"
 	invertmatch := false
 	flag.BoolVar(&invertmatch, "v", false, "-v(--invert-match) in AWK")
@@ -30,6 +29,7 @@ func main() {
 		quotregex = flag.Args()[0]
 		dlog("set regex:", quotregex)
 	}
+	dlog("Version:", Version)
 	dlog("-v flag is", invertmatch)
 	dlog("process regex:", quotregex)
 	rxop := regexp.MustCompile(quotregex)
