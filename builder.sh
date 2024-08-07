@@ -1,4 +1,4 @@
-!/usr/bin/bash
+#!/usr/bin/bash
 if [ ! -e "go.mod" ]:
 then
 	make initmod

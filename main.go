@@ -40,10 +40,13 @@ func main() {
 	dlog("process regex:", quotregex)
 	rxop := regexp.MustCompile(quotregex)
 	stdin := bufio.NewScanner(os.Stdin)
+	matchcount := 0
 	for stdin.Scan() {
 		line := stdin.Text()
 		if invertmatch != rxop.MatchString(line) {
+			matchcount++
 			fmt.Println(line)
 		}
 	}
+	log.Println("Matched: ", matchcount, " times")
 }
