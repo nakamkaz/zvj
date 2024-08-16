@@ -23,9 +23,9 @@ func dlog(msg ...interface{}) {
 func main() {
 	quotregex := ".*"
 	invertmatch := false
-	noprintmatchcount := false
+	printmatchcount := false
 	flag.BoolVar(&invertmatch, "v", false, "-v(--invert-match) in AWK")
-	flag.BoolVar(&noprintmatchcount, "no", false, "does not print count to stderr")
+	flag.BoolVar(&printmatchcount, "pc", false, "prints count to STDERR")
 	flag.BoolVar(&DebugFlag, "debug", false, "default false; --debug when enable")
 	flag.BoolVar(&VersionInfo, "V", false, "show version")
 	flag.Parse()
@@ -46,13 +46,13 @@ func main() {
 	for stdin.Scan() {
 		line := stdin.Text()
 		if invertmatch != rxop.MatchString(line) {
-			if noprintmatchcount == false {
+			if printmatchcount {
 				matchcount++
 			}
 			fmt.Println(line)
 		}
 	}
-	if noprintmatchcount == false {
+	if printmatchcount {
 		log.Println("Matched: ", matchcount, " times")
 	}
 }
