@@ -1,5 +1,5 @@
 PROJ_NAME := "zvj"
-VERSION := "1.0.7-20240816"
+VERSION := "1.0.7b-20240816"
 SRCS := $(shell find . -type f -name '*.go')
 LDFLAGS := -ldflags="-s -w -X \"main.Version=$(VERSION)\" -extldflags \"-static\""
 

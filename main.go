@@ -53,6 +53,8 @@ func main() {
 		}
 	}
 	if printmatchcount {
-		log.Println("Matched: ", matchcount, " times")
+		log.Println("Matched: ", !invertmatch,
+			" for ", matchcount,
+			" times on [", quotregex, "]")
 	}
 }
