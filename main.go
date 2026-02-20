@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"compress/bzip2"
 	"flag"
 	"fmt"
 	"io"
@@ -14,6 +15,7 @@ var (
 	Version     string = ""
 	VersionInfo bool   = false
 	DebugFlag   bool   = false
+	Bzip2On     bool   = false
 )
 
 func dlog(msg ...interface{}) {
@@ -26,6 +28,7 @@ func main() {
 	invertmatch := false
 	printmatchcount := false
 	flag.BoolVar(&invertmatch, "v", false, "-v(--invert-match) in AWK")
+	flag.BoolVar(&Bzip2On, "bz", false, "decode bz2 stream")
 	flag.BoolVar(&printmatchcount, "pc", false, "prints count to STDERR")
 	flag.BoolVar(&DebugFlag, "debug", false, "default false; --debug when enable")
 	flag.BoolVar(&VersionInfo, "V", false, "show version")
@@ -40,13 +43,19 @@ func main() {
 	}
 	dlog("Version:", Version)
 	dlog("-v flag is", invertmatch)
+	dlog("-bz flag is", Bzip2On)
 	dlog("process regex:", quotregex)
 	reader := bufio.NewReader(os.Stdin)
 	dofilter(reader, quotregex, invertmatch, printmatchcount)
 }
 
 func dofilter(reader io.Reader, quotregex string, invertmatch bool, printmatchcount bool) {
-	brrdr := bufio.NewReader(reader)
+	var brrdr io.Reader
+	if !Bzip2On {
+		brrdr = reader
+	} else {
+		brrdr = bzip2.NewReader(reader)
+	}
 	scanner := bufio.NewScanner(brrdr)
 	rxop := regexp.MustCompile(quotregex)
 	matchcount := 0
