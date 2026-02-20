@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"regexp"
@@ -40,11 +41,17 @@ func main() {
 	dlog("Version:", Version)
 	dlog("-v flag is", invertmatch)
 	dlog("process regex:", quotregex)
+	reader := bufio.NewReader(os.Stdin)
+	dofilter(reader, quotregex, invertmatch, printmatchcount)
+}
+
+func dofilter(reader io.Reader, quotregex string, invertmatch bool, printmatchcount bool) {
+	brrdr := bufio.NewReader(reader)
+	scanner := bufio.NewScanner(brrdr)
 	rxop := regexp.MustCompile(quotregex)
-	stdin := bufio.NewScanner(os.Stdin)
 	matchcount := 0
-	for stdin.Scan() {
-		line := stdin.Text()
+	for scanner.Scan() {
+		line := scanner.Text()
 		if invertmatch != rxop.MatchString(line) {
 			if printmatchcount {
 				matchcount++
